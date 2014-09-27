@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Array</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">array v1.0.1 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Array.html">Array</a></div>
+
+      <h1>
+        Array
+        
+      </h1>
+
+      <ul class="summary_links">
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+          <li><a href="#types_details">Types</a></li>
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>A wrapper module for Erlang’s array.</p>
+
+        </div>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#default/1">default(array)</a></td>
+  
+    <td class="summary_synopsis"><p>Gets the value used for uninitialized entries</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#equal?/2">equal?(array, array)</a></td>
+  
+    <td class="summary_synopsis"><p>Check if two arrays are equal using ===</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#fix/1">fix(arr)</a></td>
+  
+    <td class="summary_synopsis"><p>Fixes the size of the array. This prevents it from growing automatically upon insertion</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#foldl/3">foldl(array, acc, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Folds the elements of the array using the given function and initial accumulator value.
+The elements are visited in order from the lowest index to the highest</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#foldr/3">foldr(array, acc, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Folds the elements of the array right-to-left using the given function and initial accumulator value.
+The elements are visited in order from the highest index to the lowest</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#from_erlang_array/1">from_erlang_array(erl_arr)</a></td>
+  
+    <td class="summary_synopsis"><p>Converts an Erlang’s array to an array.
+All properties (size, elements, default value, fixedness) of the original array are preserved</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#from_list/1">from_list(list)</a></td>
+  
+    <td class="summary_synopsis"><p>Equivalent to <code class="inline">from_list(list, nil)</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#from_list/2">from_list(list, default)</a></td>
+  
+    <td class="summary_synopsis"><p>Converts a list to an extendible array.
+<code class="inline">default</code> is used as the value for uninitialized entries of the array</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#from_orddict/1">from_orddict(orddict)</a></td>
+  
+    <td class="summary_synopsis"><p>Equivalent to <code class="inline">from_orddict(orddict, nil)</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#from_orddict/2">from_orddict(orddict, default)</a></td>
+  
+    <td class="summary_synopsis"><p>Converts an ordered list of pairs <code class="inline">{index, value}</code> to a corresponding extendible array.
+<code class="inline">default</code> is used as the value for uninitialized entries of the array</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#get/2">get(array, idx)</a></td>
+  
+    <td class="summary_synopsis"><p>Gets the value of entry <code class="inline">idx</code>. If <code class="inline">idx</code> is not a nonnegative integer, or if the array has
+fixed size and <code class="inline">idx</code> is larger than the maximum index, the call raises <code class="inline">ArgumentError</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#is_array/1">is_array(arr)</a></td>
+  
+    <td class="summary_synopsis"><p>Returns <code class="inline">true</code> if <code class="inline">arr</code> appears to be an array, otherwise <code class="inline">false</code>.
+Note that the check is only shallow; there is no guarantee that <code class="inline">arr</code> is a well-formed array
+representation even if this function returns <code class="inline">true</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#is_fix/1">is_fix(array)</a></td>
+  
+    <td class="summary_synopsis"><p>Checks if the array has fixed size. Returns <code class="inline">true</code> if the array is fixed, otherwise <code class="inline">false</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#map/2">map(arr, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Maps the given function onto each element of the array.
+The elements are visited in order from the lowest index to the highest</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#new/0">new()</a></td>
+  
+    <td class="summary_synopsis"><p>Creates a new, extendible array with initial size zero.
+The default value is the atom nil, not undefined</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#new/1">new(options)</a></td>
+  
+    <td class="summary_synopsis"><p>Creates a new fixed array according to the given options.
+By default, the array is extendible and has initial size zero.
+The default value is the atom nil, if not specified</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#relax/1">relax(arr)</a></td>
+  
+    <td class="summary_synopsis"><p>Makes the array resizable</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#reset/2">reset(arr, idx)</a></td>
+  
+    <td class="summary_synopsis"><p>Resets entry <code class="inline">idx</code> to the default value for the array.
+If the value of entry <code class="inline">idx</code> is the default value the array will be returned unchanged.
+Reset will never change size of the array. Shrinking can be done explicitly by calling <a href="#resize/2"><code class="inline">resize/2</code></a></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#resize/1">resize(arr)</a></td>
+  
+    <td class="summary_synopsis"><p>Changes the size of the array to that reported by <a href="#sparse_size/1"><code class="inline">sparse_size/1</code></a>.
+If the given array has fixed size, the resulting array will also have fixed size</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#resize/2">resize(arr, size)</a></td>
+  
+    <td class="summary_synopsis"><p>Changes the size of the array.
+If <code class="inline">size</code> is not a nonnegative integer, the call raises <code class="inline">ArgumentError</code>.
+If the given array has fixed size, the resulting array will also have fixed size</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#set/3">set(arr, idx, val)</a></td>
+  
+    <td class="summary_synopsis"><p>Sets entry <code class="inline">idx</code> of the array to <code class="inline">val</code>.
+If <code class="inline">idx</code> is not a nonnegative integer, or if the array has fixed size and <code class="inline">idx</code> is
+larger than the maximum index, the call raises <code class="inline">ArgumentError</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#size/1">size(array)</a></td>
+  
+    <td class="summary_synopsis"><p>Gets the number of entries in the array.
+Entries are numbered from 0 to <code class="inline">size(array)-1</code>; hence, this is also the index of
+the first entry that is guaranteed to not have been previously set</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#sparse_foldl/3">sparse_foldl(array, acc, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Folds the elements of the array using the given function and initial accumulator value,
+skipping default-valued entries.
+The elements are visited in order from the lowest index to the highest</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#sparse_foldr/3">sparse_foldr(array, acc, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Folds the elements of the array right-to-left using the given function and initial accumulator value,
+skipping default-valued entries.
+The elements are visited in order from the highest index to the lowest</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#sparse_map/2">sparse_map(arr, fun)</a></td>
+  
+    <td class="summary_synopsis"><p>Maps the given function onto each element of the array, skipping default-valued entries.
+The elements are visited in order from the lowest index to the highest</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#sparse_size/1">sparse_size(array)</a></td>
+  
+    <td class="summary_synopsis"><p>Gets the number of entries in the array up until the last non-default valued entry.
+In other words, returns <code class="inline">idx+1</code> if <code class="inline">idx</code> is the last non-default valued entry in the array,
+or zero if no such entry exists</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#sparse_to_list/1">sparse_to_list(array)</a></td>
+  
+    <td class="summary_synopsis"><p>Converts the array to a list, skipping default-valued entries</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#sparse_to_orddict/1">sparse_to_orddict(array)</a></td>
+  
+    <td class="summary_synopsis"><p>Converts the array to an ordered list of pairs <code class="inline">{index, value}</code>, skipping default-valued entries</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#to_erlang_array/1">to_erlang_array(array)</a></td>
+  
+    <td class="summary_synopsis"><p>Converts the array to its underlying Erlang’s array</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#to_list/1">to_list(array)</a></td>
+  
+    <td class="summary_synopsis"><p>Converts the array to a list</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#to_orddict/1">to_orddict(array)</a></td>
+  
+    <td class="summary_synopsis"><p>Converts the array to an ordered list of pairs <code class="inline">{index, value}</code></p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+        <div id="types_details" class="details_list">
+          <h2>Types <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></h2>
+          <div class="type_detail">
+  <p class="typespec" id="t:t/0">
+    <a href="#t:t/0">t</a> :: %Array{content: :array.array}
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:index/0">
+    <a href="#t:index/0">index</a> :: non_neg_integer
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:element/0">
+    <a href="#t:element/0">element</a> :: any
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:opts/0">
+    <a href="#t:opts/0">opts</a> :: <a href="#t:opt/0">opt</a> | [<a href="#t:opt/0">opt</a>]
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:opt/0">
+    <a href="#t:opt/0">opt</a> :: {:fixed, boolean} | :fixed | {:default, any} | {:size, non_neg_integer} | non_neg_integer
+  </p>
+  
+</div>
+<div class="type_detail">
+  <p class="typespec" id="t:orddict/0">
+    <a href="#t:orddict/0">orddict</a> :: [{<a href="#t:index/0">index</a>, <a href="#t:element/0">element</a>}]
+  </p>
+  
+</div>
+
+        </div>
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="default/1">
+    <span class="signature"><strong>default(array)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#default/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>default(<a href="#t:t/0">t</a>) :: any</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Gets the value used for uninitialized entries.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="equal?/2">
+    <span class="signature"><strong>equal?(array, array)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#equal?/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>equal?(<a href="#t:t/0">t</a>, <a href="#t:t/0">t</a>) :: boolean</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Check if two arrays are equal using ===.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="fix/1">
+    <span class="signature"><strong>fix(arr)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#fix/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>fix(<a href="#t:t/0">t</a>) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Fixes the size of the array. This prevents it from growing automatically upon insertion.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="foldl/3">
+    <span class="signature"><strong>foldl(array, acc, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#foldl/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>foldl(<a href="#t:t/0">t</a>, acc, (<a href="#t:index/0">index</a>, <a href="#t:element/0">element</a>, acc -> acc)) :: acc when acc: var</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Folds the elements of the array using the given function and initial accumulator value.
+The elements are visited in order from the lowest index to the highest. </p>
+<p>If <code class="inline">fun</code> is not a function, the call raises <code class="inline">ArgumentError</code>.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="foldr/3">
+    <span class="signature"><strong>foldr(array, acc, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#foldr/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>foldr(<a href="#t:t/0">t</a>, acc, (<a href="#t:index/0">index</a>, <a href="#t:element/0">element</a>, acc -> acc)) :: acc when acc: var</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Folds the elements of the array right-to-left using the given function and initial accumulator value.
+The elements are visited in order from the highest index to the lowest.</p>
+<p>If <code class="inline">fun</code> is not a function, the call raises <code class="inline">ArgumentError</code>.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="from_erlang_array/1">
+    <span class="signature"><strong>from_erlang_array(erl_arr)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#from_erlang_array/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>from_erlang_array(:array.array) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Converts an Erlang’s array to an array.
+All properties (size, elements, default value, fixedness) of the original array are preserved.</p>
+<p>If <code class="inline">erl_arr</code> is not an Erlang’s array, the call raises <code class="inline">ArgumentError</code>.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="from_list/1">
+    <span class="signature"><strong>from_list(list)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#from_list/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>from_list(list) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Equivalent to <code class="inline">from_list(list, nil)</code>.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="from_list/2">
+    <span class="signature"><strong>from_list(list, default)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#from_list/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>from_list(list, any) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Converts a list to an extendible array.
+<code class="inline">default</code> is used as the value for uninitialized entries of the array.</p>
+<p>If <code class="inline">list</code> is not a proper list, the call raises <code class="inline">ArgumentError</code>.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="from_orddict/1">
+    <span class="signature"><strong>from_orddict(orddict)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#from_orddict/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>from_orddict(<a href="#t:orddict/0">orddict</a>) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Equivalent to <code class="inline">from_orddict(orddict, nil)</code>.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="from_orddict/2">
+    <span class="signature"><strong>from_orddict(orddict, default)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#from_orddict/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>from_orddict(<a href="#t:orddict/0">orddict</a>, any) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Converts an ordered list of pairs <code class="inline">{index, value}</code> to a corresponding extendible array.
+<code class="inline">default</code> is used as the value for uninitialized entries of the array.</p>
+<p>If <code class="inline">orddict</code> is not a proper, ordered list of pairs whose first elements are nonnegative integers,
+the call raises <code class="inline">ArgumentError</code>.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="get/2">
+    <span class="signature"><strong>get(array, idx)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#get/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>get(<a href="#t:t/0">t</a>, <a href="#t:index/0">index</a>) :: <a href="#t:element/0">element</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Gets the value of entry <code class="inline">idx</code>. If <code class="inline">idx</code> is not a nonnegative integer, or if the array has
+fixed size and <code class="inline">idx</code> is larger than the maximum index, the call raises <code class="inline">ArgumentError</code>.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="is_array/1">
+    <span class="signature"><strong>is_array(arr)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#is_array/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>is_array(<a href="#t:t/0">t</a>) :: boolean</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Returns <code class="inline">true</code> if <code class="inline">arr</code> appears to be an array, otherwise <code class="inline">false</code>.
+Note that the check is only shallow; there is no guarantee that <code class="inline">arr</code> is a well-formed array
+representation even if this function returns <code class="inline">true</code>.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="is_fix/1">
+    <span class="signature"><strong>is_fix(array)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#is_fix/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>is_fix(<a href="#t:t/0">t</a>) :: boolean</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Checks if the array has fixed size. Returns <code class="inline">true</code> if the array is fixed, otherwise <code class="inline">false</code>.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="map/2">
+    <span class="signature"><strong>map(arr, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#map/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>map(<a href="#t:t/0">t</a>, (<a href="#t:index/0">index</a>, <a href="#t:element/0">element</a> -> any)) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Maps the given function onto each element of the array.
+The elements are visited in order from the lowest index to the highest.</p>
+<p>If <code class="inline">fun</code> is not a function, the call raises <code class="inline">ArgumentError</code>.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="new/0">
+    <span class="signature"><strong>new()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#new/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>new :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Creates a new, extendible array with initial size zero.
+The default value is the atom nil, not undefined.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="new/1">
+    <span class="signature"><strong>new(options)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#new/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>new(<a href="#t:opts/0">opts</a>) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Creates a new fixed array according to the given options.
+By default, the array is extendible and has initial size zero.
+The default value is the atom nil, if not specified.</p>
+<p><code class="inline">options</code> is a single term or a list of terms, selected from the following:</p>
+<ul>
+<li><p><code class="inline">n : non_neg_integer</code> or <code class="inline">{:size, n : non_neg_integer}</code></p>
+<ul>
+<li>Specifies the initial size of the array; this also implies <code class="inline">{:fixed, true}</code>.
+  If <code class="inline">n</code> is not a nonnegative integer, the call raises <code class="inline">ArgumentError</code>.
+</li>
+</ul>
+</li>
+<li><p><code class="inline">:fixed</code> or <code class="inline">{:fixed, true}</code></p>
+<ul>
+<li>Creates a fixed-size array.
+</li>
+</ul>
+</li>
+<li><p><code class="inline">{:fixed, false}</code></p>
+<ul>
+<li>Creates an extendible (non fixed-size) array.
+</li>
+</ul>
+</li>
+<li><p><code class="inline">{:default, value}</code></p>
+<ul>
+<li>Sets the default value for the array to <code class="inline">value</code>.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="relax/1">
+    <span class="signature"><strong>relax(arr)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#relax/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>relax(<a href="#t:t/0">t</a>) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Makes the array resizable.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="reset/2">
+    <span class="signature"><strong>reset(arr, idx)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#reset/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>reset(<a href="#t:t/0">t</a>, <a href="#t:index/0">index</a>) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Resets entry <code class="inline">idx</code> to the default value for the array.
+If the value of entry <code class="inline">idx</code> is the default value the array will be returned unchanged.
+Reset will never change size of the array. Shrinking can be done explicitly by calling <a href="#resize/2"><code class="inline">resize/2</code></a>.</p>
+<p>If <code class="inline">idx</code> is not a nonnegative integer, or if the array has fixed size and <code class="inline">idx</code> is
+larger than the maximum index, the call raises <code class="inline">ArgumentError</code>.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="resize/1">
+    <span class="signature"><strong>resize(arr)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#resize/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>resize(<a href="#t:t/0">t</a>) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Changes the size of the array to that reported by <a href="#sparse_size/1"><code class="inline">sparse_size/1</code></a>.
+If the given array has fixed size, the resulting array will also have fixed size.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="resize/2">
+    <span class="signature"><strong>resize(arr, size)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#resize/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>resize(<a href="#t:t/0">t</a>, non_neg_integer) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Changes the size of the array.
+If <code class="inline">size</code> is not a nonnegative integer, the call raises <code class="inline">ArgumentError</code>.
+If the given array has fixed size, the resulting array will also have fixed size.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="set/3">
+    <span class="signature"><strong>set(arr, idx, val)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#set/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>set(<a href="#t:t/0">t</a>, <a href="#t:index/0">index</a>, <a href="#t:element/0">element</a>) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Sets entry <code class="inline">idx</code> of the array to <code class="inline">val</code>.
+If <code class="inline">idx</code> is not a nonnegative integer, or if the array has fixed size and <code class="inline">idx</code> is
+larger than the maximum index, the call raises <code class="inline">ArgumentError</code>.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="size/1">
+    <span class="signature"><strong>size(array)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#size/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>size(<a href="#t:t/0">t</a>) :: non_neg_integer</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Gets the number of entries in the array.
+Entries are numbered from 0 to <code class="inline">size(array)-1</code>; hence, this is also the index of
+the first entry that is guaranteed to not have been previously set.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="sparse_foldl/3">
+    <span class="signature"><strong>sparse_foldl(array, acc, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#sparse_foldl/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>sparse_foldl(<a href="#t:t/0">t</a>, acc, (<a href="#t:index/0">index</a>, <a href="#t:element/0">element</a>, acc -> acc)) :: acc when acc: var</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Folds the elements of the array using the given function and initial accumulator value,
+skipping default-valued entries.
+The elements are visited in order from the lowest index to the highest.</p>
+<p>If <code class="inline">fun</code> is not a function, the call raises <code class="inline">ArgumentError</code>.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="sparse_foldr/3">
+    <span class="signature"><strong>sparse_foldr(array, acc, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#sparse_foldr/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>sparse_foldr(<a href="#t:t/0">t</a>, acc, (<a href="#t:index/0">index</a>, <a href="#t:element/0">element</a>, acc -> acc)) :: acc when acc: var</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Folds the elements of the array right-to-left using the given function and initial accumulator value,
+skipping default-valued entries.
+The elements are visited in order from the highest index to the lowest.</p>
+<p>If <code class="inline">fun</code> is not a function, the call raises <code class="inline">ArgumentError</code>.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="sparse_map/2">
+    <span class="signature"><strong>sparse_map(arr, fun)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#sparse_map/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>sparse_map(<a href="#t:t/0">t</a>, (<a href="#t:element/0">element</a> -> any)) :: <a href="#t:t/0">t</a></li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Maps the given function onto each element of the array, skipping default-valued entries.
+The elements are visited in order from the lowest index to the highest.</p>
+<p>If <code class="inline">fun</code> is not a function, the call raises <code class="inline">ArgumentError</code>.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="sparse_size/1">
+    <span class="signature"><strong>sparse_size(array)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#sparse_size/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>sparse_size(<a href="#t:t/0">t</a>) :: non_neg_integer</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Gets the number of entries in the array up until the last non-default valued entry.
+In other words, returns <code class="inline">idx+1</code> if <code class="inline">idx</code> is the last non-default valued entry in the array,
+or zero if no such entry exists.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="sparse_to_list/1">
+    <span class="signature"><strong>sparse_to_list(array)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#sparse_to_list/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>sparse_to_list(<a href="#t:t/0">t</a>) :: list</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Converts the array to a list, skipping default-valued entries.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="sparse_to_orddict/1">
+    <span class="signature"><strong>sparse_to_orddict(array)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#sparse_to_orddict/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>sparse_to_orddict(<a href="#t:t/0">t</a>) :: [{<a href="#t:index/0">index</a>, <a href="#t:element/0">element</a>}]</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Converts the array to an ordered list of pairs <code class="inline">{index, value}</code>, skipping default-valued entries.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="to_erlang_array/1">
+    <span class="signature"><strong>to_erlang_array(array)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#to_erlang_array/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>to_erlang_array(<a href="#t:t/0">t</a>) :: :array.array</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Converts the array to its underlying Erlang’s array.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="to_list/1">
+    <span class="signature"><strong>to_list(array)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#to_list/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>to_list(<a href="#t:t/0">t</a>) :: list</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Converts the array to a list.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="to_orddict/1">
+    <span class="signature"><strong>to_orddict(array)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#to_orddict/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>to_orddict(<a href="#t:t/0">t</a>) :: [{<a href="#t:index/0">index</a>, <a href="#t:element/0">element</a>}]</li>
+      
+    </ul>
+  
+  <div class="docstring"><p>Converts the array to an ordered list of pairs <code class="inline">{index, value}</code>.</p>
+</div>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>
